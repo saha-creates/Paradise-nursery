@@ -1,0 +1,47 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+.landing-page {
+  min-height: 100vh;
+  background-image: url("./assets/nursery-background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing-content {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 40px;
+  border-radius: 15px;
+  max-width: 600px;
+}
+
+.landing-content h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.landing-content p {
+  font-size: 20px;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.landing-content button {
+  padding: 12px 25px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
