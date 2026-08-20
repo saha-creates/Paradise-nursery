@@ -2,43 +2,52 @@ import React from "react";
 
 function AboutUs() {
   return (
-    <div className="about-us">
+    <div className="about-us-container">
       <h1>About Paradise Nursery</h1>
 
       <p>
-        Welcome to Paradise Nursery, your one-stop destination for beautiful
-        and healthy plants. We believe that bringing nature into your home
-        creates a peaceful, refreshing, and positive environment.
+        Welcome to Paradise Nursery, an online plant shop dedicated to
+        bringing the beauty of nature into your home. Paradise Nursery
+        provides a convenient way for plant lovers to discover and purchase
+        a wide variety of beautiful and healthy plants.
       </p>
 
       <p>
-        At Paradise Nursery, we offer a wide variety of indoor and outdoor
-        plants carefully selected to suit different spaces and lifestyles.
-        Whether you are an experienced plant lover or just beginning your
-        gardening journey, we are here to help you find the perfect plant.
+        Our online store, <strong>e-plantShopping</strong>, offers a
+        collection of indoor and outdoor plants suitable for different
+        homes, spaces, and lifestyles. Each plant is presented with its
+        image, name, description, and price to make choosing the right plant
+        simple and convenient.
       </p>
 
       <h2>Our Mission</h2>
 
       <p>
         Our mission is to make plants accessible to everyone and encourage
-        people to create greener and healthier living spaces. We are committed
-        to providing quality plants and a simple, convenient online shopping
-        experience.
+        people to create greener, healthier, and more peaceful living spaces.
+        We aim to provide quality plants along with a simple and enjoyable
+        online shopping experience.
+      </p>
+
+      <h2>Our Services</h2>
+
+      <p>
+        Paradise Nursery allows customers to browse different categories of
+        plants, view plant details, add their favorite plants to a shopping
+        cart, adjust quantities, and view the total cost of their selected
+        items. Our goal is to make plant shopping easy and user-friendly.
       </p>
 
       <h2>Why Choose Paradise Nursery?</h2>
 
-      <ul>
-        <li>Wide variety of indoor and outdoor plants</li>
-        <li>Quality and healthy plants</li>
-        <li>Simple and convenient online shopping</li>
-        <li>Plants suitable for beginners and experienced gardeners</li>
-        <li>Passion for creating greener and healthier spaces</li>
-      </ul>
+      <p>
+        We offer a wide selection of indoor and outdoor plants, easy
+        navigation, convenient shopping-cart management, and a simple
+        interface designed for both beginners and experienced plant lovers.
+      </p>
 
       <p>
-        Thank you for choosing Paradise Nursery. Let us help you bring a
+        Thank you for choosing Paradise Nursery. We hope to help you bring a
         little more nature into your everyday life! 🌱
       </p>
     </div>
