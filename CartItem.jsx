@@ -12,26 +12,59 @@ function CartItem() {
 
   const cartItems = useSelector((state) => state.cart.items);
 
-  const totalItems = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
+  // Calculate the total cost for an individual plant
+  const calculateItemTotal = (item) => {
+    return item.price * item.quantity;
+  };
 
-  const totalAmount = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
+  // Calculate the total number of items in the cart
+  const calculateTotalItems = () => {
+    return cartItems.reduce(
+      (total, item) => total + item.quantity,
+      0
+    );
+  };
 
+  // Calculate the total cost of the entire cart
+  const calculateCartTotal = () => {
+    return cartItems.reduce(
+      (total, item) => total + calculateItemTotal(item),
+      0
+    );
+  };
+
+  // Increase plant quantity
+  const handleIncrease = (id) => {
+    dispatch(increaseQuantity(id));
+  };
+
+  // Decrease plant quantity
+  const handleDecrease = (id) => {
+    dispatch(decreaseQuantity(id));
+  };
+
+  // Remove plant from cart
+  const handleRemove = (id) => {
+    dispatch(removeFromCart(id));
+  };
+
+  // Checkout functionality
   const handleCheckout = () => {
     alert("Checkout Coming Soon!");
   };
 
+  const totalItems = calculateTotalItems();
+  const totalAmount = calculateCartTotal();
+
   return (
     <div className="cart-page">
+
       {/* Navigation Bar */}
       <nav className="navbar">
         <div className="navbar-brand">
-          <Link to="/">🌱 Paradise Nursery</Link>
+          <Link to="/">
+            🌱 Paradise Nursery
+          </Link>
         </div>
 
         <div className="navbar-links">
@@ -51,7 +84,10 @@ function CartItem() {
           <div className="empty-cart">
             <h2>Your cart is empty</h2>
 
-            <Link to="/plants" className="continue-shopping">
+            <Link
+              to="/plants"
+              className="continue-shopping"
+            >
               Continue Shopping
             </Link>
           </div>
@@ -59,75 +95,104 @@ function CartItem() {
           <>
             {/* Cart Items */}
             <div className="cart-items">
-              {cartItems.map((item) => {
-                const itemTotal = item.price * item.quantity;
 
-                return (
-                  <div className="cart-item" key={item.id}>
-                    {/* Plant Thumbnail */}
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="cart-item-image"
-                    />
+              {cartItems.map((item) => (
+                <div
+                  className="cart-item"
+                  key={item.id}
+                >
 
-                    {/* Plant Information */}
-                    <div className="cart-item-details">
-                      <h2>{item.name}</h2>
+                  {/* Plant Thumbnail */}
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="cart-item-image"
+                  />
 
-                      <p>
-                        Unit Price: ${item.price.toFixed(2)}
-                      </p>
+                  {/* Plant Details */}
+                  <div className="cart-item-details">
+                    <h2>{item.name}</h2>
 
-                      <p>
-                        Total: ${itemTotal.toFixed(2)}
-                      </p>
-                    </div>
+                    <p>
+                      Unit Price: $
+                      {item.price.toFixed(2)}
+                    </p>
 
-                    {/* Quantity Controls */}
-                    <div className="quantity-controls">
-                      <button
-                        onClick={() => dispatch(decreaseQuantity(item.id))}
-                        disabled={item.quantity === 1}
-                      >
-                        −
-                      </button>
+                    <p>
+                      Quantity: {item.quantity}
+                    </p>
 
-                      <span>{item.quantity}</span>
-
-                      <button
-                        onClick={() => dispatch(increaseQuantity(item.id))}
-                      >
-                        +
-                      </button>
-                    </div>
-
-                    {/* Delete Button */}
-                    <button
-                      className="delete-button"
-                      onClick={() => dispatch(removeFromCart(item.id))}
-                    >
-                      Delete
-                    </button>
+                    <p className="item-total">
+                      Total: $
+                      {calculateItemTotal(item).toFixed(2)}
+                    </p>
                   </div>
-                );
-              })}
+
+                  {/* Quantity Controls */}
+                  <div className="quantity-controls">
+
+                    <button
+                      onClick={() =>
+                        handleDecrease(item.id)
+                      }
+                      disabled={item.quantity <= 1}
+                    >
+                      −
+                    </button>
+
+                    <span>
+                      {item.quantity}
+                    </span>
+
+                    <button
+                      onClick={() =>
+                        handleIncrease(item.id)
+                      }
+                    >
+                      +
+                    </button>
+
+                  </div>
+
+                  {/* Delete Button */}
+                  <button
+                    className="delete-button"
+                    onClick={() =>
+                      handleRemove(item.id)
+                    }
+                  >
+                    Delete
+                  </button>
+
+                </div>
+              ))}
+
             </div>
 
             {/* Cart Summary */}
             <div className="cart-summary">
+
               <h2>Cart Summary</h2>
 
               <p>
-                Total Items: <strong>{totalItems}</strong>
+                Total Items:
+                <strong> {totalItems}</strong>
               </p>
 
               <p className="cart-total">
-                Total Amount: <strong>${totalAmount.toFixed(2)}</strong>
+                Total Amount:
+                <strong>
+                  ${totalAmount.toFixed(2)}
+                </strong>
               </p>
 
+              {/* Cart Actions */}
               <div className="cart-actions">
-                <Link to="/plants" className="continue-shopping">
+
+                <Link
+                  to="/plants"
+                  className="continue-shopping"
+                >
                   Continue Shopping
                 </Link>
 
@@ -137,7 +202,9 @@ function CartItem() {
                 >
                   Checkout
                 </button>
+
               </div>
+
             </div>
           </>
         )}
