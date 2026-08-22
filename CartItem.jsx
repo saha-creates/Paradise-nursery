@@ -12,76 +12,74 @@ function CartItem() {
 
   const cartItems = useSelector((state) => state.cart.items);
 
-  // Calculate the total cost for an individual plant
-  const calculateItemTotal = (item) => {
-    return item.price * item.quantity;
+  // Calculate total price of one cart item
+  const getItemTotal = (price, quantity) => {
+    return price * quantity;
   };
 
-  // Calculate the total number of items in the cart
-  const calculateTotalItems = () => {
-    return cartItems.reduce(
-      (total, item) => total + item.quantity,
-      0
-    );
+  // Calculate total number of products in cart
+  const getTotalItems = () => {
+    return cartItems.reduce((sum, item) => {
+      return sum + item.quantity;
+    }, 0);
   };
 
-  // Calculate the total cost of the entire cart
-  const calculateCartTotal = () => {
-    return cartItems.reduce(
-      (total, item) => total + calculateItemTotal(item),
-      0
-    );
+  // Calculate total cart amount
+  const getTotalCartAmount = () => {
+    return cartItems.reduce((sum, item) => {
+      return sum + item.price * item.quantity;
+    }, 0);
   };
 
-  // Increase plant quantity
+  // Increase quantity
   const handleIncrease = (id) => {
     dispatch(increaseQuantity(id));
   };
 
-  // Decrease plant quantity
+  // Decrease quantity
   const handleDecrease = (id) => {
     dispatch(decreaseQuantity(id));
   };
 
-  // Remove plant from cart
-  const handleRemove = (id) => {
+  // Delete item
+  const handleDelete = (id) => {
     dispatch(removeFromCart(id));
   };
 
-  // Checkout functionality
+  // Checkout
   const handleCheckout = () => {
-    alert("Checkout Coming Soon!");
+    alert("Coming Soon!");
   };
 
-  const totalItems = calculateTotalItems();
-  const totalAmount = calculateCartTotal();
+  const totalItems = getTotalItems();
+  const totalCartAmount = getTotalCartAmount();
 
   return (
     <div className="cart-page">
 
-      {/* Navigation Bar */}
+      {/* Navbar */}
       <nav className="navbar">
         <div className="navbar-brand">
-          <Link to="/">
-            🌱 Paradise Nursery
-          </Link>
+          <Link to="/">Paradise Nursery</Link>
         </div>
 
         <div className="navbar-links">
           <Link to="/">Home</Link>
           <Link to="/plants">Plants</Link>
           <Link to="/cart">
-            🛒 Cart ({totalItems})
+            Cart ({totalItems})
           </Link>
         </div>
       </nav>
 
-      {/* Shopping Cart */}
-      <main className="cart-container">
+      {/* Cart Page */}
+      <div className="cart-container">
+
         <h1>Shopping Cart</h1>
 
         {cartItems.length === 0 ? (
           <div className="empty-cart">
+
             <h2>Your cart is empty</h2>
 
             <Link
@@ -90,103 +88,102 @@ function CartItem() {
             >
               Continue Shopping
             </Link>
+
           </div>
         ) : (
-          <>
-            {/* Cart Items */}
-            <div className="cart-items">
 
-              {cartItems.map((item) => (
-                <div
-                  className="cart-item"
-                  key={item.id}
-                >
+          <div>
 
-                  {/* Plant Thumbnail */}
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="cart-item-image"
-                  />
+            {/* Individual Cart Items */}
+            {cartItems.map((item) => (
 
-                  {/* Plant Details */}
-                  <div className="cart-item-details">
-                    <h2>{item.name}</h2>
+              <div
+                className="cart-item"
+                key={item.id}
+              >
 
-                    <p>
-                      Unit Price: $
-                      {item.price.toFixed(2)}
-                    </p>
+                {/* Thumbnail */}
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="cart-item-image"
+                />
 
-                    <p>
-                      Quantity: {item.quantity}
-                    </p>
+                {/* Name and Prices */}
+                <div className="cart-item-details">
 
-                    <p className="item-total">
-                      Total: $
-                      {calculateItemTotal(item).toFixed(2)}
-                    </p>
-                  </div>
+                  <h2>{item.name}</h2>
 
-                  {/* Quantity Controls */}
-                  <div className="quantity-controls">
+                  <p>
+                    Unit Price: ${item.price.toFixed(2)}
+                  </p>
 
-                    <button
-                      onClick={() =>
-                        handleDecrease(item.id)
-                      }
-                      disabled={item.quantity <= 1}
-                    >
-                      −
-                    </button>
+                  <p>
+                    Quantity: {item.quantity}
+                  </p>
 
-                    <span>
-                      {item.quantity}
-                    </span>
+                  <p>
+                    Item Total: $
+                    {getItemTotal(
+                      item.price,
+                      item.quantity
+                    ).toFixed(2)}
+                  </p>
 
-                    <button
-                      onClick={() =>
-                        handleIncrease(item.id)
-                      }
-                    >
-                      +
-                    </button>
+                </div>
 
-                  </div>
+                {/* Quantity Controls */}
+                <div className="quantity-controls">
 
-                  {/* Delete Button */}
                   <button
-                    className="delete-button"
                     onClick={() =>
-                      handleRemove(item.id)
+                      handleDecrease(item.id)
+                    }
+                    disabled={item.quantity === 1}
+                  >
+                    -
+                  </button>
+
+                  <span>{item.quantity}</span>
+
+                  <button
+                    onClick={() =>
+                      handleIncrease(item.id)
                     }
                   >
-                    Delete
+                    +
                   </button>
 
                 </div>
-              ))}
 
-            </div>
+                {/* Delete */}
+                <button
+                  className="delete-button"
+                  onClick={() =>
+                    handleDelete(item.id)
+                  }
+                >
+                  Delete
+                </button>
 
-            {/* Cart Summary */}
+              </div>
+            ))}
+
+            {/* Cart Total */}
             <div className="cart-summary">
 
               <h2>Cart Summary</h2>
 
               <p>
-                Total Items:
-                <strong> {totalItems}</strong>
+                Total Items: {totalItems}
               </p>
 
-              <p className="cart-total">
-                Total Amount:
-                <strong>
-                  ${totalAmount.toFixed(2)}
-                </strong>
-              </p>
+              <h3>
+                Total Cart Amount: $
+                {totalCartAmount.toFixed(2)}
+              </h3>
 
-              {/* Cart Actions */}
+              {/* Buttons */}
               <div className="cart-actions">
 
                 <Link
@@ -206,9 +203,11 @@ function CartItem() {
               </div>
 
             </div>
-          </>
+
+          </div>
         )}
-      </main>
+
+      </div>
     </div>
   );
 }
